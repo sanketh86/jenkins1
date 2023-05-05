@@ -1,0 +1,16 @@
+pipeline {
+	agent any
+	#agent {label "build_server"}
+	stages {
+		stage ("Build the package") {
+			steps {
+				node ("build_server")
+				print ("Clone the git repo")
+				checkout scm
+				
+				print ("Building the war package")
+				sh "mvn install"
+			}
+		}
+	}
+}
