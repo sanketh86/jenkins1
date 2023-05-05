@@ -9,8 +9,31 @@ pipeline {
 				
 					print ("Building the war package")
 					sh "mvn install"
+
+					print ("Stash the project")
+					stash ( includes: "target/webapp1.war", name: "package" )
+				
 				}
 			}
 		}
+		stage ("Deploy the package") {
+			steps {
+				node ("deploy_server") {
+
+					print ("Unstash the project")
+					unstash ( name: "package" )
+
+					print ("Current user")
+					whoami
+
+					print ("Deleting the old file")
+					sh "rm -rf /usr/local/tomcat/webapps/webapp1.war"
+				
+					print ("Copying the new file")
+					sh "cp /app/deploy_server/workspace/declarative_pipeline_example/target/webapp1.war /usr/local/tomcat/webapps"
+				}
+			}
+		}
+				
 	}
 }
