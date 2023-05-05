@@ -24,7 +24,7 @@ pipeline {
 					unstash ( name: "package" )
 
 					print ("Current user")
-					whoami
+					sh "whoami"
 
 					print ("Deleting the old file")
 					sh "rm -rf /usr/local/tomcat/webapps/webapp1.war"
