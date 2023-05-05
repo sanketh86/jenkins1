@@ -3,12 +3,13 @@ pipeline {
 	stages {
 		stage ("Build the package") {
 			steps {
-				node ("build_server")
-				print ("Clone the git repo")
-				checkout scm
+				node ("build_server") {
+					print ("Clone the git repo")
+					checkout scm
 				
-				print ("Building the war package")
-				sh "mvn install"
+					print ("Building the war package")
+					sh "mvn install"
+				}
 			}
 		}
 	}
